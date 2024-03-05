@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Center,
   Heading,
@@ -8,19 +9,36 @@ import {
   Grid,
 } from "@chakra-ui/react";
 import { data } from "../utils/data";
+import SearchBar from "../components/SearchBar";
 
 export const RecipeListPage = () => {
+  const [filteredRecipes, setFilteredRecipes] = useState(data.hits);
+
+  const handleSearch = (searchTerm) => {
+    const filtered = data.hits.filter((hit) => {
+      // Check if the recipe name or any health label contains the search term
+      return (
+        hit.recipe.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        hit.recipe.healthLabels.some((label) =>
+          label.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    });
+    setFilteredRecipes(filtered);
+  };
+
   return (
     <Center h="100vh" flexDir="column">
       <Heading>Your Recipe App</Heading>
+      <SearchBar onSearch={handleSearch} />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} mt={8}>
-        {data.hits.map((hit, index) => (
+        {filteredRecipes.map((hit, index) => (
           <Box
             key={index}
             h="100%"
             bg="whiteAlpha.700"
             borderRadius="md"
-            boxShadow="0 1px 2px rgba(0, 0, 0, 0.5)"
+            boxShadow="0 1px 2px rgba(0, 0, 0, 0.1)"
             p={4}
           >
             <VStack spacing={2}>
