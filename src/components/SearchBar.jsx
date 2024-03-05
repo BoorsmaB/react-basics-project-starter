@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { Input, Button, Flex } from "@chakra-ui/react";
+import { Input, Flex } from "@chakra-ui/react";
 
 const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+    const inputValue = event.target.value;
+    setSearchTerm(inputValue);
+    onSearch(inputValue);
   };
 
-  const handleSearch = () => {
-    onSearch(searchTerm);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      onSearch(searchTerm);
+    }
   };
 
   return (
@@ -18,9 +22,9 @@ const SearchBar = ({ onSearch }) => {
         placeholder="Search recipes by name or health labels"
         value={searchTerm}
         onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         mr={2}
       />
-      <Button onClick={handleSearch}>Search</Button>
     </Flex>
   );
 };
