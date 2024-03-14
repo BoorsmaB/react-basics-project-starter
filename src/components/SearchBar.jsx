@@ -24,6 +24,8 @@ const SearchBar = ({ onSearch }) => {
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
         mr={2}
+        width="500px"
+        bg="white"
       />
     </Flex>
   );

@@ -7,16 +7,22 @@ import {
   Text,
   VStack,
   Grid,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { data } from "../utils/data";
 import SearchBar from "../components/SearchBar";
 
 export const RecipeListPage = ({ onSelectRecipe }) => {
   const [filteredRecipes, setFilteredRecipes] = useState(data.hits);
+  const [isSmallerThan768, isBetween768and992, isBetween992and1200] =
+    useMediaQuery([
+      "(max-width: 767px)",
+      "(min-width: 768px) and (max-width: 991px)",
+      "(min-width: 992px) and (max-width: 1199px)",
+    ]);
 
   const handleSearch = (searchTerm) => {
     const filtered = data.hits.filter((hit) => {
-      // Check if the recipe name or any health label contains the search term
       return (
         hit.recipe.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
         hit.recipe.healthLabels.some((label) =>
@@ -35,8 +41,19 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
     <Center h="100vh" flexDir="column">
       <Heading>Your Recipe App</Heading>
       <SearchBar onSearch={handleSearch} />{" "}
-      {/* Pass handleSearch to SearchBar */}
-      <Grid templateColumns="repeat(5, 1fr)" gap={6} mt={8}>
+      <Grid
+        templateColumns={
+          isSmallerThan768
+            ? "repeat(1, 1fr)"
+            : isBetween768and992
+            ? "repeat(2, 1fr)"
+            : isBetween992and1200
+            ? "repeat(3, 1fr)"
+            : "repeat(5, 1fr)"
+        }
+        gap={6}
+        mt={8}
+      >
         {filteredRecipes.map((hit, index) => (
           <Box
             key={index}
@@ -47,28 +64,73 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
             p={4}
             cursor="pointer"
             onClick={() => handleRecipeClick(hit.recipe)}
+            overflow="hidden" // Hide any content that overflows the box
           >
             <VStack spacing={2}>
               <Heading size="md">{hit.recipe.label}</Heading>
-              <Image
-                src={hit.recipe.image}
-                alt={hit.recipe.label}
-                borderRadius="md"
-                maxW="100px"
-                maxH="100px"
-              />
-              <Text>Diet Labels: {hit.recipe.dietLabels.join(", ")}</Text>
-              <Text>Cautions: {hit.recipe.cautions.join(", ")}</Text>
-              <Text>Meal Type: {hit.recipe.mealType.join(", ")}</Text>
-              <Text>Dish Type: {hit.recipe.dishType.join(", ")}</Text>
-              <Text>Health Labels:</Text>
+              <Box
+                w="100%"
+                h="300px"
+                flex="none" // Prevent the image from flexing
+                borderRadius="md" // Apply border radius to the image container
+                overflow="hidden" // Hide any content that overflows the image container
+              >
+                <Image
+                  src={hit.recipe.image}
+                  alt={hit.recipe.label}
+                  minW="100%"
+                  minH="100%"
+                  objectFit="cover"
+                />
+              </Box>
+              <Text>
+                <strong>Diet Labels:</strong> {hit.recipe.dietLabels.join(", ")}
+              </Text>
+              <Text>
+                <strong>Cautions:</strong> {hit.recipe.cautions.join(", ")}
+              </Text>
+              <Text>
+                <strong>Meal Type:</strong> {hit.recipe.mealType.join(", ")}
+              </Text>
+              <Text>
+                <strong>Dish Type:</strong> {hit.recipe.dishType.join(", ")}
+              </Text>
+              <Text>
+                <strong>Health Labels:</strong>
+              </Text>
               <VStack align="start" spacing={1}>
-                {hit.recipe.healthLabels.includes("Vegan") && (
-                  <Text>Vegan</Text>
-                )}
-                {hit.recipe.healthLabels.includes("Vegetarian") && (
-                  <Text>Vegetarian</Text>
-                )}
+                <Box>
+                  {hit.recipe.healthLabels.includes("Vegan") && (
+                    <Box
+                      display="inline-block"
+                      bg="green.200" // Background color for Vegan label
+                      color="green.800" // Text color for Vegan label
+                      borderRadius="md"
+                      p={1}
+                      border="1px solid green.500" // Border color and width
+                    >
+                      <Text textAlign="center" fontSize="sm">
+                        🌱Vegan
+                      </Text>
+                    </Box>
+                  )}
+                </Box>
+                <Box>
+                  {hit.recipe.healthLabels.includes("Vegetarian") && (
+                    <Box
+                      display="inline-block"
+                      bg="blue.200" // Background color for Vegetarian label
+                      color="blue.800" // Text color for Vegetarian label
+                      borderRadius="md"
+                      p={1}
+                      border="1px solid blue.500" // Border color and width
+                    >
+                      <Text textAlign="center" fontSize="sm">
+                        🥦Vegetarian
+                      </Text>
+                    </Box>
+                  )}
+                </Box>
               </VStack>
             </VStack>
           </Box>

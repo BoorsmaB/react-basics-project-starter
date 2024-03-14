@@ -19,11 +19,11 @@ export const App = () => {
 
   return (
     <ChakraProvider>
-      <Flex direction="column" bg="blue.200" minHeight="150vh">
+      <Flex direction="column" bg="blue.200" minHeight="250vh">
         <Box>
           <Banner />
         </Box>
-        <Box mt={40}>
+        <Box mt={650}>
           {selectedRecipe ? (
             <RecipePage
               recipe={selectedRecipe}

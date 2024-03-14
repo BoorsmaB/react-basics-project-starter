@@ -10,7 +10,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const RecipePage = ({ recipe, onReturn }) => {
   return (
-    <Box p={4} borderWidth="1px" borderRadius="md">
+    <Box p={4} borderWidth="1px" borderRadius="md" maxW="600px" mx="auto">
       <IconButton
         aria-label="Return to recipe list"
         icon={<ArrowBackIcon />}
@@ -21,7 +21,7 @@ const RecipePage = ({ recipe, onReturn }) => {
       <Heading as="h2" size="lg" mb={4}>
         {recipe.label}
       </Heading>
-      <Image src={recipe.image} alt={recipe.label} mb={4} />
+      <Image src={recipe.image} alt={recipe.label} mb={4} borderRadius="md" />
       <VStack align="start" spacing={2}>
         <Text>
           <strong>Meal Type:</strong> {recipe.mealType.join(", ")}
