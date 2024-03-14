@@ -87,7 +87,19 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
                 <strong>Diet Labels:</strong> {hit.recipe.dietLabels.join(", ")}
               </Text>
               <Text>
-                <strong>Cautions:</strong> {hit.recipe.cautions.join(", ")}
+                <strong>Cautions:</strong>{" "}
+                {hit.recipe.cautions.map((caution, index) => (
+                  <Box
+                    key={index}
+                    as="span"
+                    bg="red.200"
+                    borderRadius="md"
+                    px={2}
+                    mr={2}
+                  >
+                    {caution}
+                  </Box>
+                ))}
               </Text>
               <Text>
                 <strong>Meal Type:</strong> {hit.recipe.mealType.join(", ")}

@@ -39,7 +39,19 @@ const RecipePage = ({ recipe, onReturn }) => {
           <strong>Health Labels:</strong> {recipe.healthLabels.join(", ")}
         </Text>
         <Text>
-          <strong>Cautions:</strong> {recipe.cautions.join(", ")}
+          <strong>Cautions:</strong>{" "}
+          {recipe.cautions.map((caution, index) => (
+            <Box
+              key={index}
+              as="span"
+              bg="red.200"
+              borderRadius="md"
+              px={2}
+              mr={2}
+            >
+              {caution}
+            </Box>
+          ))}
         </Text>
         <Text>
           <strong>Ingredients:</strong>
