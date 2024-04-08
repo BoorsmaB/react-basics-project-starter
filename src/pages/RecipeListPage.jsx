@@ -27,6 +27,12 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
         hit.recipe.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
         hit.recipe.healthLabels.some((label) =>
           label.toLowerCase().includes(searchTerm.toLowerCase())
+        ) ||
+        hit.recipe.cautions.some((caution) =>
+          caution.toLowerCase().includes(searchTerm.toLowerCase())
+        ) ||
+        hit.recipe.mealType.some((mealType) =>
+          mealType.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     });
@@ -38,9 +44,9 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
   };
 
   return (
-    <Center h="100vh" flexDir="column">
+    <Center flexDir="column" marginTop="auto">
       <Heading>Your Recipe App</Heading>
-      <SearchBar onSearch={handleSearch} />{" "}
+      <SearchBar onSearch={handleSearch} />
       <Grid
         templateColumns={
           isSmallerThan768
@@ -53,6 +59,8 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
         }
         gap={6}
         mt={8}
+        mb={8}
+        minHeight="400px"
       >
         {filteredRecipes.map((hit, index) => (
           <Box
@@ -64,16 +72,16 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
             p={4}
             cursor="pointer"
             onClick={() => handleRecipeClick(hit.recipe)}
-            overflow="hidden" // Hide any content that overflows the box
+            overflow="hidden"
           >
             <VStack spacing={2}>
               <Heading size="md">{hit.recipe.label}</Heading>
               <Box
                 w="100%"
                 h="300px"
-                flex="none" // Prevent the image from flexing
-                borderRadius="md" // Apply border radius to the image container
-                overflow="hidden" // Hide any content that overflows the image container
+                flex="none"
+                borderRadius="md"
+                overflow="hidden"
               >
                 <Image
                   src={hit.recipe.image}
@@ -102,14 +110,24 @@ export const RecipeListPage = ({ onSelectRecipe }) => {
                 ))}
               </Text>
               <Text>
-                <strong>Meal Type:</strong> {hit.recipe.mealType.join(", ")}
+                <strong>Meal Type:</strong>{" "}
+                {hit.recipe.mealType.map((type, index) => (
+                  <span key={index}>
+                    {index > 0 && ", "}
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </span>
+                ))}
               </Text>
               <Text>
-                <strong>Dish Type:</strong> {hit.recipe.dishType.join(", ")}
+                <strong>Dish Type:</strong>{" "}
+                {hit.recipe.dishType.map((type, index) => (
+                  <span key={index}>
+                    {index > 0 && ", "}
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </span>
+                ))}
               </Text>
-              <Text>
-                <strong>Health Labels:</strong>
-              </Text>
+              <strong>Health Labels:</strong>
               <VStack align="start" spacing={1}>
                 <Box>
                   {hit.recipe.healthLabels.includes("Vegan") && (

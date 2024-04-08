@@ -10,7 +10,16 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const RecipePage = ({ recipe, onReturn }) => {
   return (
-    <Box p={4} borderWidth="1px" borderRadius="md" maxW="600px" mx="auto">
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderRadius="md"
+      maxW="1200px"
+      mx="auto"
+      bg="whiteAlpha.400"
+      marginTop={10}
+    >
+      {" "}
       <IconButton
         aria-label="Return to recipe list"
         icon={<ArrowBackIcon />}
@@ -24,10 +33,22 @@ const RecipePage = ({ recipe, onReturn }) => {
       <Image src={recipe.image} alt={recipe.label} mb={4} borderRadius="md" />
       <VStack align="start" spacing={2}>
         <Text>
-          <strong>Meal Type:</strong> {recipe.mealType.join(", ")}
+          <strong>Meal Type:</strong>{" "}
+          {recipe.mealType.map((type, index) => (
+            <span key={index}>
+              {index > 0 && ", "}
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </span>
+          ))}
         </Text>
         <Text>
-          <strong>Dish Type:</strong> {recipe.dishType.join(", ")}
+          <strong>Dish Type:</strong>{" "}
+          {recipe.dishType.map((type, index) => (
+            <span key={index}>
+              {index > 0 && ", "}
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </span>
+          ))}
         </Text>
         <Text>
           <strong>Total Cooking Time:</strong> {recipe.totalTime} minutes
@@ -36,7 +57,21 @@ const RecipePage = ({ recipe, onReturn }) => {
           <strong>Diet Label:</strong> {recipe.dietLabels.join(", ")}
         </Text>
         <Text>
-          <strong>Health Labels:</strong> {recipe.healthLabels.join(", ")}
+          <strong>Health Labels:</strong>{" "}
+          {recipe.healthLabels.map((label, index) => (
+            <Box
+              key={index}
+              as="span"
+              bg="yellow.100"
+              color="yellow.800"
+              borderRadius="md"
+              p={0.5}
+              margin={0.5}
+              border="1px solid yellow.500"
+            >
+              {label}
+            </Box>
+          ))}
         </Text>
         <Text>
           <strong>Cautions:</strong>{" "}

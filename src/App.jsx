@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChakraProvider, Flex, Box } from "@chakra-ui/react";
+import { ChakraProvider, Flex } from "@chakra-ui/react";
 import { RecipeListPage } from "./pages/RecipeListPage";
 import Banner from "./components/ui/Banner";
 import RecipePage from "./pages/RecipePage"; // Import RecipePage component
@@ -19,11 +19,9 @@ export const App = () => {
 
   return (
     <ChakraProvider>
-      <Flex direction="column" bg="blue.200" minHeight="250vh">
-        <Box>
-          <Banner />
-        </Box>
-        <Box mt={650}>
+      <Flex direction="column" minHeight="100vh" bg="blue.200">
+        <Banner />
+        <Flex flex="1" overflowY="auto">
           {selectedRecipe ? (
             <RecipePage
               recipe={selectedRecipe}
@@ -32,7 +30,7 @@ export const App = () => {
           ) : (
             <RecipeListPage onSelectRecipe={handleRecipeSelect} />
           )}
-        </Box>
+        </Flex>
       </Flex>
     </ChakraProvider>
   );

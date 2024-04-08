@@ -19,7 +19,7 @@ const SearchBar = ({ onSearch }) => {
   return (
     <Flex>
       <Input
-        placeholder="Search recipes by name or health labels"
+        placeholder="Search recipes by name, health labels, or cautions"
         value={searchTerm}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
